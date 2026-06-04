@@ -4,3 +4,9 @@ build/
 .env
 *.log
 .localstack/
+cdk.out/
+infrastructure/cdk.out/
+__pycache__/
+*.pyc
+.python-version
+.venv/

@@ -4,6 +4,12 @@ import { NimbusButton, NimbusInput, NimbusBadge, NimbusTable } from "./ui";
 import type { NimbusTableRow } from "./ui";
 import "./App.css";
 
+const API_URL =
+  process.env.REACT_APP_API_URL ||
+  (window.location.hostname === "localhost"
+    ? "http://localhost:3002/procesar"
+    : "/procesar");
+
 function App() {
   const [texto, setTexto] = useState("");
   const [resultados, setResultados] = useState<NimbusTableRow[]>([]);
@@ -15,12 +21,12 @@ function App() {
     setLoading(true);
     setError(null);
     try {
-      const res = await axios.post("http://localhost:3002/procesar", { texto });
+      const res = await axios.post(API_URL, { texto });
       setResultados((prev) => [res.data, ...prev]);
       setTexto("");
     } catch (e) {
       console.error(e);
-      setError("No se pudo conectar con la API. ¿Está el servidor en :3002?");
+      setError(`No se pudo conectar con la API (${API_URL})`);
     } finally {
       setLoading(false);
     }
@@ -79,7 +85,7 @@ function App() {
       </section>
 
       <footer className="nimbus-footer">
-        <span>POST</span> localhost:3002/procesar
+        <span>POST</span> {API_URL}
       </footer>
     </div>
   );

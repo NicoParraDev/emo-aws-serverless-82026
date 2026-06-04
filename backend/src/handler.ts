@@ -1,23 +1,31 @@
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand, S3ClientConfig } from "@aws-sdk/client-s3";
 
-const s3 = new S3Client({
-  region: "us-east-1",
-  endpoint: "http://localhost:4566",
-  forcePathStyle: true,
-  credentials: {
-    accessKeyId: "test",
-    secretAccessKey: "test",
-  },
-});
+const BUCKET_NAME = process.env.BUCKET_NAME || "demo-resultados";
 
-const BUCKET_NAME = "demo-resultados";
+function createS3Client(): S3Client {
+  const config: S3ClientConfig = {
+    region: process.env.AWS_REGION || "us-east-1",
+  };
 
-export const handler = async (event: any) => {
+  if (process.env.AWS_ENDPOINT_URL) {
+    config.endpoint = process.env.AWS_ENDPOINT_URL;
+    config.forcePathStyle = true;
+    config.credentials = {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID || "test",
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "test",
+    };
+  }
+
+  return new S3Client(config);
+}
+
+const s3 = createS3Client();
+
+export const handler = async (event: { body?: string }) => {
   const body = JSON.parse(event.body || "{}");
   const texto: string = body.texto || "";
 
-  // Procesamiento simple
-  const palabras = texto.trim().split(/\s+/).length;
+  const palabras = texto.trim() ? texto.trim().split(/\s+/).length : 0;
   const caracteres = texto.length;
   const fecha = new Date().toISOString();
 
@@ -28,7 +36,6 @@ export const handler = async (event: any) => {
     fecha,
   };
 
-  // Guardar en S3
   const key = `resultados/${Date.now()}.json`;
   await s3.send(
     new PutObjectCommand({
