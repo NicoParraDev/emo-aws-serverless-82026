@@ -1,0 +1,151 @@
+.nimbus-app {
+  position: relative;
+  min-height: 100vh;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 48px 24px 64px;
+  z-index: 1;
+}
+
+.nimbus-app__aurora {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 0%, rgba(0, 229, 199, 0.14), transparent 55%),
+    radial-gradient(ellipse 60% 40% at 90% 10%, rgba(232, 93, 255, 0.1), transparent 50%),
+    radial-gradient(ellipse 70% 60% at 50% 100%, rgba(255, 179, 71, 0.08), transparent 55%);
+  z-index: 0;
+}
+
+.nimbus-app__grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0, 229, 199, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 199, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 30%, black, transparent);
+  z-index: 0;
+}
+
+.nimbus-hero {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.nimbus-hero__eyebrow {
+  font-family: var(--nimbus-font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--nimbus-teal-dim);
+  margin: 0 0 12px;
+}
+
+.nimbus-hero__title {
+  font-family: var(--nimbus-font-display);
+  font-size: clamp(2.5rem, 6vw, 3.75rem);
+  font-weight: 800;
+  line-height: 1.05;
+  margin: 0;
+  background: linear-gradient(120deg, var(--nimbus-text) 30%, var(--nimbus-teal) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nimbus-hero__glyph {
+  color: var(--nimbus-teal);
+  -webkit-text-fill-color: var(--nimbus-teal);
+  margin-right: 0.15em;
+}
+
+.nimbus-hero__subtitle {
+  font-family: var(--nimbus-font-ui);
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: var(--nimbus-text-muted);
+  margin: 14px 0 24px;
+  max-width: 520px;
+}
+
+.nimbus-hero__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.nimbus-panel {
+  position: relative;
+  padding: 28px;
+  border-radius: var(--nimbus-radius-lg);
+  border: 1px solid var(--nimbus-border);
+  background: var(--nimbus-surface);
+  backdrop-filter: blur(16px);
+  box-shadow: var(--nimbus-shadow-glow);
+}
+
+.nimbus-panel__composer {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 600px) {
+  .nimbus-panel__composer {
+    flex-direction: column;
+  }
+}
+
+.nimbus-panel__error {
+  font-family: var(--nimbus-font-ui);
+  font-size: 0.9rem;
+  color: var(--nimbus-danger);
+  margin: 12px 0 0;
+}
+
+.nimbus-panel__empty {
+  font-family: var(--nimbus-font-ui);
+  font-size: 0.95rem;
+  color: var(--nimbus-text-muted);
+  text-align: center;
+  padding: 32px 16px;
+  margin: 20px 0 0;
+  border: 1px dashed var(--nimbus-border);
+  border-radius: var(--nimbus-radius-md);
+}
+
+.nimbus-panel__results {
+  margin-top: 28px;
+}
+
+.nimbus-panel__results-title {
+  font-family: var(--nimbus-font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--nimbus-text);
+  margin: 0 0 16px;
+}
+
+.nimbus-panel__results-title span {
+  font-family: var(--nimbus-font-mono);
+  font-size: 0.85rem;
+  color: var(--nimbus-teal);
+  margin-left: 8px;
+}
+
+.nimbus-footer {
+  position: relative;
+  margin-top: 32px;
+  font-family: var(--nimbus-font-mono);
+  font-size: 0.75rem;
+  color: var(--nimbus-text-muted);
+  text-align: center;
+}
+
+.nimbus-footer span {
+  color: var(--nimbus-amber);
+  margin-right: 6px;
+}

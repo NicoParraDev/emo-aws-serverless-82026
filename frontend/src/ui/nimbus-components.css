@@ -1,0 +1,182 @@
+.nimbus-btn {
+  position: relative;
+  font-family: var(--nimbus-font-ui);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  padding: 14px 28px;
+  border: none;
+  border-radius: var(--nimbus-radius-md);
+  background: linear-gradient(135deg, var(--nimbus-amber) 0%, #e88a20 100%);
+  color: var(--nimbus-bg-deep);
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform var(--nimbus-transition), box-shadow var(--nimbus-transition);
+  flex-shrink: 0;
+}
+
+.nimbus-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px var(--nimbus-amber-glow);
+}
+
+.nimbus-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.nimbus-btn__shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 60%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.nimbus-btn:hover:not(:disabled) .nimbus-btn__shine {
+  transform: translateX(100%);
+}
+
+.nimbus-btn__label {
+  position: relative;
+  z-index: 1;
+}
+
+.nimbus-input-wrap {
+  flex: 1;
+  position: relative;
+}
+
+.nimbus-input {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--nimbus-font-ui);
+  font-size: 1.05rem;
+  font-weight: 400;
+  padding: 14px 18px;
+  background: var(--nimbus-surface);
+  border: 1px solid var(--nimbus-border);
+  border-radius: var(--nimbus-radius-md);
+  color: var(--nimbus-text);
+  outline: none;
+  transition: border-color var(--nimbus-transition), box-shadow var(--nimbus-transition);
+}
+
+.nimbus-input::placeholder {
+  color: var(--nimbus-text-muted);
+}
+
+.nimbus-input:focus {
+  border-color: var(--nimbus-border-strong);
+  box-shadow: 0 0 0 3px rgba(0, 229, 199, 0.12);
+}
+
+.nimbus-input:disabled {
+  opacity: 0.6;
+}
+
+.nimbus-badge {
+  font-family: var(--nimbus-font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid;
+}
+
+.nimbus-badge--teal {
+  color: var(--nimbus-teal);
+  border-color: var(--nimbus-border);
+  background: rgba(0, 229, 199, 0.08);
+}
+
+.nimbus-badge--amber {
+  color: var(--nimbus-amber);
+  border-color: rgba(255, 179, 71, 0.35);
+  background: rgba(255, 179, 71, 0.1);
+}
+
+.nimbus-badge--magenta {
+  color: var(--nimbus-magenta);
+  border-color: rgba(232, 93, 255, 0.35);
+  background: rgba(232, 93, 255, 0.1);
+}
+
+.nimbus-table-shell {
+  border-radius: var(--nimbus-radius-lg);
+  border: 1px solid var(--nimbus-border);
+  background: var(--nimbus-surface);
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+  box-shadow: var(--nimbus-shadow-glow);
+}
+
+.nimbus-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--nimbus-font-mono);
+  font-size: 0.85rem;
+}
+
+.nimbus-table thead tr {
+  background: linear-gradient(90deg, rgba(0, 229, 199, 0.15), rgba(232, 93, 255, 0.1));
+}
+
+.nimbus-table th {
+  font-family: var(--nimbus-font-ui);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--nimbus-teal);
+  padding: 14px 16px;
+  text-align: left;
+}
+
+.nimbus-table th:not(:first-child) {
+  text-align: center;
+}
+
+.nimbus-table tbody tr {
+  animation: nimbus-row-in 0.45s ease backwards;
+  transition: background var(--nimbus-transition);
+}
+
+.nimbus-table tbody tr:hover {
+  background: var(--nimbus-surface-hover);
+}
+
+.nimbus-table td {
+  padding: 14px 16px;
+  color: var(--nimbus-text);
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.nimbus-table__texto {
+  max-width: 280px;
+  word-break: break-word;
+}
+
+.nimbus-table__num,
+.nimbus-table__fecha {
+  text-align: center;
+  color: var(--nimbus-text-muted);
+}
+
+@keyframes nimbus-row-in {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

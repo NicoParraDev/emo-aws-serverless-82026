@@ -1,0 +1,26 @@
+@import "./ui/nimbus.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--nimbus-font-ui);
+  background: var(--nimbus-bg-deep);
+  color: var(--nimbus-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+code {
+  font-family: var(--nimbus-font-mono);
+}
