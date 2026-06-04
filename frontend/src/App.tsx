@@ -7,7 +7,7 @@ import "./App.css";
 const API_URL =
   process.env.REACT_APP_API_URL ||
   (window.location.hostname === "localhost"
-    ? "http://127.0.0.1:3002/procesar"
+    ? "http://127.0.0.1:3001/procesar"
     : "/procesar");
 
 function App() {
