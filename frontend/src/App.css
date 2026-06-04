@@ -1,9 +1,9 @@
 .nimbus-app {
   position: relative;
   min-height: 100vh;
-  max-width: 880px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 48px 24px 64px;
+  padding: 48px 28px 80px;
   z-index: 1;
 }
 
@@ -11,86 +11,91 @@
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background:
-    radial-gradient(ellipse 80% 50% at 20% 0%, rgba(0, 229, 199, 0.14), transparent 55%),
-    radial-gradient(ellipse 60% 40% at 90% 10%, rgba(232, 93, 255, 0.1), transparent 50%),
-    radial-gradient(ellipse 70% 60% at 50% 100%, rgba(255, 179, 71, 0.08), transparent 55%);
   z-index: 0;
+  background: var(--axis-bg);
 }
 
 .nimbus-app__grid {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image:
-    linear-gradient(rgba(0, 229, 199, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 229, 199, 0.04) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse 70% 70% at 50% 30%, black, transparent);
   z-index: 0;
+  background-image:
+    linear-gradient(var(--axis-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--axis-border) 1px, transparent 1px);
+  background-size: 64px 64px;
+  opacity: 0.35;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 20%, transparent 75%);
 }
 
 .nimbus-hero {
   position: relative;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--axis-border);
+}
+
+.nimbus-hero::before {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 3px;
+  background: var(--axis-accent);
+  border-radius: 2px;
+  margin-bottom: 20px;
 }
 
 .nimbus-hero__eyebrow {
-  font-family: var(--nimbus-font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.14em;
+  font-family: var(--axis-font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--nimbus-teal-dim);
-  margin: 0 0 12px;
+  color: var(--axis-accent);
+  margin: 0 0 10px;
 }
 
 .nimbus-hero__title {
-  font-family: var(--nimbus-font-display);
-  font-size: clamp(2.5rem, 6vw, 3.75rem);
-  font-weight: 800;
-  line-height: 1.05;
+  font-family: var(--axis-font);
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.15;
   margin: 0;
-  background: linear-gradient(120deg, var(--nimbus-text) 30%, var(--nimbus-teal) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--axis-text);
+  letter-spacing: -0.03em;
 }
 
 .nimbus-hero__glyph {
-  color: var(--nimbus-teal);
-  -webkit-text-fill-color: var(--nimbus-teal);
-  margin-right: 0.15em;
+  display: none;
 }
 
 .nimbus-hero__subtitle {
-  font-family: var(--nimbus-font-ui);
-  font-size: 1.1rem;
-  font-weight: 300;
-  color: var(--nimbus-text-muted);
-  margin: 14px 0 24px;
-  max-width: 520px;
+  font-family: var(--axis-font);
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--axis-text-muted);
+  margin: 14px 0 22px;
+  max-width: 560px;
+  line-height: 1.6;
 }
 
 .nimbus-hero__badges {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
 }
 
 .nimbus-panel {
   position: relative;
-  padding: 28px;
-  border-radius: var(--nimbus-radius-lg);
-  border: 1px solid var(--nimbus-border);
-  background: var(--nimbus-surface);
-  backdrop-filter: blur(16px);
-  box-shadow: var(--nimbus-shadow-glow);
+  padding: 24px;
+  border-radius: var(--axis-radius-lg);
+  border: 1px solid var(--axis-border);
+  background: var(--axis-surface);
 }
 
 .nimbus-panel__composer {
   display: flex;
   gap: 12px;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 @media (max-width: 600px) {
@@ -100,52 +105,64 @@
 }
 
 .nimbus-panel__error {
-  font-family: var(--nimbus-font-ui);
-  font-size: 0.9rem;
-  color: var(--nimbus-danger);
-  margin: 12px 0 0;
+  font-family: var(--axis-font);
+  font-size: 0.875rem;
+  color: var(--axis-danger);
+  margin: 14px 0 0;
+  padding: 10px 12px;
+  border-radius: var(--axis-radius-sm);
+  background: rgba(232, 93, 93, 0.08);
+  border: 1px solid rgba(232, 93, 93, 0.25);
 }
 
 .nimbus-panel__empty {
-  font-family: var(--nimbus-font-ui);
-  font-size: 0.95rem;
-  color: var(--nimbus-text-muted);
+  font-family: var(--axis-font);
+  font-size: 0.9rem;
+  color: var(--axis-text-muted);
   text-align: center;
   padding: 32px 16px;
   margin: 20px 0 0;
-  border: 1px dashed var(--nimbus-border);
-  border-radius: var(--nimbus-radius-md);
+  border: 1px dashed var(--axis-border);
+  border-radius: var(--axis-radius-md);
 }
 
 .nimbus-panel__results {
-  margin-top: 28px;
+  margin-top: 24px;
 }
 
 .nimbus-panel__results-title {
-  font-family: var(--nimbus-font-display);
-  font-size: 1.15rem;
+  font-family: var(--axis-font);
+  font-size: 0.875rem;
   font-weight: 600;
-  color: var(--nimbus-text);
-  margin: 0 0 16px;
+  color: var(--axis-text);
+  margin: 0 0 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .nimbus-panel__results-title span {
-  font-family: var(--nimbus-font-mono);
-  font-size: 0.85rem;
-  color: var(--nimbus-teal);
+  font-family: var(--axis-font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--axis-accent);
   margin-left: 8px;
+  text-transform: none;
 }
 
 .nimbus-footer {
   position: relative;
-  margin-top: 32px;
-  font-family: var(--nimbus-font-mono);
-  font-size: 0.75rem;
-  color: var(--nimbus-text-muted);
-  text-align: center;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--axis-border);
+  font-family: var(--axis-font-mono);
+  font-size: 0.6875rem;
+  color: var(--axis-text-muted);
+  text-align: left;
+  word-break: break-all;
 }
 
 .nimbus-footer span {
-  color: var(--nimbus-amber);
+  color: var(--axis-link);
+  font-weight: 500;
   margin-right: 6px;
 }

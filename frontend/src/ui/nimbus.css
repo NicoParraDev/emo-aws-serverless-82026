@@ -1,25 +1,21 @@
-/* Nimbus UI — design tokens */
+/* Axis — corporate minimal dark */
 :root {
-  --nimbus-bg-deep: #070b14;
-  --nimbus-bg-mid: #0f1628;
-  --nimbus-surface: rgba(18, 28, 48, 0.72);
-  --nimbus-surface-hover: rgba(28, 42, 72, 0.85);
-  --nimbus-border: rgba(0, 229, 199, 0.22);
-  --nimbus-border-strong: rgba(0, 229, 199, 0.45);
-  --nimbus-teal: #00e5c7;
-  --nimbus-teal-dim: #00a896;
-  --nimbus-amber: #ffb347;
-  --nimbus-amber-glow: rgba(255, 179, 71, 0.35);
-  --nimbus-magenta: #e85dff;
-  --nimbus-text: #e8edf7;
-  --nimbus-text-muted: #8b9bb8;
-  --nimbus-danger: #ff6b6b;
-  --nimbus-radius-sm: 8px;
-  --nimbus-radius-md: 14px;
-  --nimbus-radius-lg: 22px;
-  --nimbus-font-display: "Bricolage Grotesque", system-ui, sans-serif;
-  --nimbus-font-ui: "Outfit", system-ui, sans-serif;
-  --nimbus-font-mono: "IBM Plex Mono", "Consolas", monospace;
-  --nimbus-shadow-glow: 0 0 40px rgba(0, 229, 199, 0.12);
-  --nimbus-transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --axis-bg: #0c0f14;
+  --axis-bg-elevated: #141a22;
+  --axis-surface: #1a212b;
+  --axis-surface-hover: #222b38;
+  --axis-border: #2a3544;
+  --axis-border-focus: #4a6fa5;
+  --axis-accent: #e8a838;
+  --axis-accent-dim: #c4892e;
+  --axis-link: #6b9fd4;
+  --axis-text: #e8ecf1;
+  --axis-text-muted: #8b97a8;
+  --axis-danger: #e85d5d;
+  --axis-radius-sm: 6px;
+  --axis-radius-md: 10px;
+  --axis-radius-lg: 14px;
+  --axis-font: "Inter", system-ui, sans-serif;
+  --axis-font-mono: "IBM Plex Mono", Consolas, monospace;
+  --axis-transition: 0.18s ease;
 }

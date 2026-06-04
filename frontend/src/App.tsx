@@ -38,12 +38,11 @@ function App() {
       <div className="nimbus-app__grid" aria-hidden />
 
       <header className="nimbus-hero">
-        <p className="nimbus-hero__eyebrow">Pipeline serverless · demo 82026</p>
-        <h1 className="nimbus-hero__title">
-          <span className="nimbus-hero__glyph">◈</span> Nimbus
-        </h1>
+        <p className="nimbus-hero__eyebrow">AWS Serverless</p>
+        <h1 className="nimbus-hero__title">Nimbus</h1>
         <p className="nimbus-hero__subtitle">
-          Procesa texto en Lambda, persiste en S3 y consulta como Athena
+          Procesamiento de texto vía Lambda, persistencia en S3 y consulta
+          analítica con Athena. Infraestructura definida con CDK.
         </p>
         <div className="nimbus-hero__badges">
           <NimbusBadge label="Lambda" variant="teal" />

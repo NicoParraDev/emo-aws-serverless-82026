@@ -1,118 +1,246 @@
-# Demo AWS Serverless — Proceso 82026
+# Demo AWS Serverless — 82026
 
-Stack serverless desarrollado como demostración técnica para posición Fullstack.
+Demostración técnica **Fullstack + Cloud**: pipeline serverless con React, Lambda, API Gateway, S3, Athena e infraestructura como código (CDK). Incluye entorno local con **LocalStack** y despliegue objetivo en **AWS**.
 
-## Arquitectura
+**Repositorio:** [github.com/NicoParraDev/emo-aws-serverless-82026](https://github.com/NicoParraDev/emo-aws-serverless-82026)
+
+---
+
+## Diagrama de arquitectura
+
+Diagrama en la **raíz del proyecto** (con icono por servicio):
+
+**`demo_82026_arquitectura.svg`**
+
+<p align="center">
+  <img src="demo_82026_arquitectura.svg" alt="Arquitectura Demo AWS Serverless 82026" width="680"/>
+</p>
+
+Iconos en el diagrama: Usuario, React, API Gateway, Lambda, S3, Athena, CDK, Python, GitHub Actions y LocalStack.
+
+> **Leyenda:** cajas con borde sólido = implementado y probado en local. Cajas punteadas = definidas en CDK para producción en AWS.
+
+---
+
+## Las 3 capas del proyecto
+
+### Capa 1 — Presentación
+
+| Componente | Rol | Código |
+|------------|-----|--------|
+| **React + TypeScript** | UI para ingresar texto y ver resultados | `frontend/` |
+| **Nimbus UI** | Componentes (input, botón, tabla, badges) | `frontend/src/ui/` |
+| **CloudFront + S3** *(AWS)* | Sirve el build estático del frontend | `infrastructure/` (CDK) |
+
+El usuario escribe un texto (ej. contrato, factura). Al pulsar **Procesar**, el front envía `POST /procesar` con `{ "texto": "..." }`.
+
+### Capa 2 — API y cómputo
+
+| Componente | Rol | Código |
+|------------|-----|--------|
+| **API Gateway** | Expone `POST /procesar` con CORS | Local: `backend/src/server.ts` (Express) |
+| **AWS Lambda** | Procesa el texto y genera métricas | `backend/src/handler.ts` |
+| **AWS CDK** | Infraestructura como código (IaC) | `infrastructure/lib/infrastructure-stack.ts` |
+
+**Lambda** calcula:
+
+- `palabras` — conteo por espacios  
+- `caracteres` — longitud del string  
+- `fecha` — ISO timestamp  
+
+Respuesta HTTP 200 con JSON y cabecera `Access-Control-Allow-Origin: *`.
+
+### Capa 3 — Datos y analítica
+
+| Componente | Rol | Código / recurso |
+|------------|-----|------------------|
+| **Amazon S3** | Persistencia de cada resultado como JSON | Bucket `demo-resultados`, prefijo `resultados/` |
+| **Amazon Athena** | Consulta SQL sobre archivos en S3 | `backend/src/setupAthena.ts`, DB `demo_db`, tabla `resultados` |
+| **Python + boto3** | Lectura y resumen de objetos S3 (equivalente operativo a Athena en local) | `python/read_s3_results.py` |
+
+Cada procesamiento crea un archivo: `resultados/{timestamp}.json`.
+
+---
+
+## Flujo de datos (paso a paso)
 
 ```
-React (CloudFront + S3)
-        │
-        ▼ POST /procesar
-   API Gateway (HTTP API)
-        │
-        ▼
-   Lambda (Node.js + TypeScript)
-        │
-        ▼
-   S3 (JSON) ──► Athena (consulta SQL)
+Usuario → React → POST /procesar → API Gateway → Lambda → S3
+                                                      ↓
+                                            Athena / Python (consulta)
 ```
 
-**Local:** Express simula API Gateway · **AWS:** CDK despliega la infraestructura completa.
+1. **Entrada:** texto en la interfaz Nimbus.  
+2. **Request:** `POST http://127.0.0.1:3001/procesar` (local) o `/procesar` vía CloudFront (AWS).  
+3. **API Gateway:** enruta al handler (Express local o integración Lambda en AWS).  
+4. **Lambda:** parsea body, procesa, construye objeto resultado.  
+5. **S3:** `PutObject` con `Content-Type: application/json`.  
+6. **Consulta:** Athena (`SELECT * FROM demo_db.resultados`) o script Python listando el bucket.  
+7. **CI:** GitHub Actions valida build, types y `cdk synth` en cada push a `main`.
 
-## Tecnologías
+---
 
-| Área | Stack |
-|------|--------|
-| Frontend | React + TypeScript, UI kit Nimbus |
-| Backend | Node.js + TypeScript (Lambda handler) |
-| API local | Express + CORS |
-| Cloud | Lambda, API Gateway, S3, Athena, CloudFront |
-| IaC | AWS CDK (TypeScript) |
-| CI/CD | GitHub Actions |
-| Scripts | Python + boto3 (lectura S3) |
-| Local | Docker, LocalStack |
-
-## Estructura del repo
+## Estructura del repositorio
 
 ```
 demo-82026/
-├── frontend/          # React app
-├── backend/           # Lambda handler + servidor local
-├── infrastructure/  # AWS CDK (S3, Lambda, API GW, CloudFront)
-├── python/            # Script de consulta S3
-└── .github/workflows/ # CI
+├── demo_82026_arquitectura.svg       # Diagrama con iconos (raiz del repo)
+├── frontend/                         # React + TypeScript
+├── backend/
+│   ├── src/handler.ts                # Lambda (lógica de negocio + S3)
+│   ├── src/server.ts                 # API Gateway local (Express)
+│   ├── src/setupAthena.ts            # Crear tabla Athena
+│   ├── src/queryAthena.ts            # Consulta S3 (fallback local)
+│   └── src/testLocal.ts              # Probar Lambda sin HTTP
+├── infrastructure/                   # AWS CDK: S3, Lambda, API GW, CloudFront
+├── python/
+│   ├── read_s3_results.py            # Consulta resultados en S3
+│   └── requirements.txt
+├── .github/workflows/ci.yml          # Pipeline CI
+├── iniciar-demo.ps1                  # Arranque automático (Windows)
+└── README.md
 ```
 
-## Cómo correr localmente
+---
+
+## Stack tecnológico
+
+| Área | Tecnología |
+|------|------------|
+| Frontend | React 18, TypeScript, Axios |
+| Backend | Node.js 20, TypeScript, Express (dev), AWS SDK v3 |
+| Cloud | Lambda, API Gateway HTTP API, S3, Athena, CloudFront |
+| IaC | AWS CDK 2.x (TypeScript) |
+| CI/CD | GitHub Actions |
+| Scripts | Python 3 + boto3 |
+| Local | Docker, LocalStack (`:4566`) |
+
+---
+
+## Ejecución local
 
 ### Requisitos
 
-- Docker Desktop
-- Node.js 20+
-- LocalStack
-- Python 3.12+ (opcional, para script)
+- Docker Desktop  
+- Node.js 20+  
+- AWS CLI  
+- LocalStack CLI  
+- Python 3.12+ (opcional)
 
-### Pasos
+### Arranque rápido (Windows)
 
-1. **LocalStack:**
-   ```bash
-   localstack start
-   ```
+```powershell
+cd C:\Users\nicoa\Desktop\demo-82026
+.\iniciar-demo.ps1
+```
 
-2. **Buckets S3:**
-   ```bash
-   aws --endpoint-url=http://localhost:4566 s3 mb s3://demo-resultados
-   aws --endpoint-url=http://localhost:4566 s3 mb s3://demo-athena-results
-   ```
+Abre el navegador en la URL que indique `npm start` (normalmente `http://localhost:3000` o `:3002`).
 
-3. **Backend** (puerto 3002 si 3001 está ocupado):
-   ```bash
-   cd backend
-   set PORT=3002
-   npm run dev
-   ```
+### Manual
 
-4. **Frontend:**
-   ```bash
-   cd frontend
-   npm start
-   ```
+**1. LocalStack**
 
-5. Abrir **http://localhost:3000**
+```bash
+localstack start
+```
 
-### Script Python (consulta S3)
+**2. Buckets S3**
+
+```bash
+aws --endpoint-url=http://127.0.0.1:4566 s3 mb s3://demo-resultados
+aws --endpoint-url=http://127.0.0.1:4566 s3 mb s3://demo-athena-results
+```
+
+**3. Backend** (API en `127.0.0.1:3001`)
+
+```bash
+cd backend
+npm run dev
+```
+
+**4. Frontend**
+
+```bash
+cd frontend
+npm start
+```
+
+**5. Verificar S3** (después de procesar un texto en la UI)
+
+```bash
+aws --endpoint-url=http://127.0.0.1:4566 s3 ls s3://demo-resultados/resultados/
+```
+
+**6. Script Python**
 
 ```bash
 cd python
 pip install -r requirements.txt
-set AWS_ENDPOINT_URL=http://localhost:4566
-set AWS_ACCESS_KEY_ID=test
-set AWS_SECRET_ACCESS_KEY=test
+export AWS_ENDPOINT_URL=http://127.0.0.1:4566
+export AWS_ACCESS_KEY_ID=test
+export AWS_SECRET_ACCESS_KEY=test
 python read_s3_results.py --bucket demo-resultados
 ```
 
-## Despliegue AWS con CDK
+---
+
+## Despliegue en AWS (CDK)
 
 ```bash
 cd frontend && npm run build
 cd ../infrastructure
 npm install
 npm run build
-npx cdk bootstrap   # primera vez
+npx cdk bootstrap    # solo la primera vez
 npx cdk deploy
 ```
 
-Outputs: URL de CloudFront, API Gateway, buckets S3 y nombre de Lambda.
+**Outputs:** URL CloudFront, URL API Gateway, nombres de buckets S3, nombre de la función Lambda.
 
-## Flujo de datos
+Recursos definidos en CDK:
 
-1. Usuario ingresa texto en React
-2. Frontend llama `POST /procesar`
-3. Lambda procesa: palabras, caracteres, timestamp
-4. Resultado se guarda en S3 como JSON bajo `resultados/`
-5. Athena puede consultar el bucket (tabla externa)
-6. Python `read_s3_results.py` resume los mismos datos desde S3
+- Buckets S3 (resultados, Athena, web estático)  
+- Lambda empaquetada desde `backend/src/handler.ts`  
+- HTTP API con ruta `POST /procesar`  
+- CloudFront: frontend en `/` y API en `/procesar`  
 
-## CI (GitHub Actions)
+---
 
-En cada push a `main`: build frontend, typecheck backend, `cdk synth`.
+## Entorno local vs producción
+
+| Aspecto | Local (LocalStack + Express) | Producción (AWS + CDK) |
+|---------|------------------------------|-------------------------|
+| API Gateway | Express `:3001` | HTTP API |
+| Lambda | Mismo `handler.ts` vía Express | Función Lambda desplegada |
+| S3 | `http://127.0.0.1:4566` | S3 regional |
+| Frontend | `npm start` (CRA) | CloudFront + S3 |
+| Athena | Limitaciones en tier free; fallback Python / `queryAthena.ts` | Athena gestionado |
+
+---
+
+## CI — GitHub Actions
+
+Workflow `.github/workflows/ci.yml`:
+
+- Instala dependencias (`backend`, `frontend`, `infrastructure`)  
+- `tsc --noEmit` en backend  
+- `npm run build` en frontend  
+- Tests frontend  
+- `cdk synth`  
+- Validación sintaxis Python  
+
+---
+
+## Demo en entrevista (guion corto)
+
+1. Mostrar **UI** — procesar un texto, ver tabla.  
+2. **F12 → Network** — `POST /procesar`, JSON de respuesta.  
+3. **Terminal** — `aws s3 ls s3://demo-resultados/resultados/`.  
+4. **GitHub** — repo + `demo_82026_arquitectura.svg` + `infrastructure-stack.ts`.  
+5. Frase: *"Pipeline serverless: React, API Gateway, Lambda, S3; consulta analítica con Athena; infra con CDK; probado en LocalStack."*
+
+---
+
+## Autor
+
+Proyecto de demostración — proceso de selección **82026**.

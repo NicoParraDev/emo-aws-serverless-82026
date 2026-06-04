@@ -8,9 +8,9 @@
 
 body {
   margin: 0;
-  font-family: var(--nimbus-font-ui);
-  background: var(--nimbus-bg-deep);
-  color: var(--nimbus-text);
+  font-family: var(--axis-font);
+  background: var(--axis-bg);
+  color: var(--axis-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
@@ -22,5 +22,5 @@ body {
 }
 
 code {
-  font-family: var(--nimbus-font-mono);
+  font-family: var(--axis-font-mono);
 }
