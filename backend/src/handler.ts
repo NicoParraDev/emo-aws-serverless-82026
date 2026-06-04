@@ -7,8 +7,12 @@ function createS3Client(): S3Client {
     region: process.env.AWS_REGION || "us-east-1",
   };
 
-  if (process.env.AWS_ENDPOINT_URL) {
-    config.endpoint = process.env.AWS_ENDPOINT_URL;
+  const isLocal =
+    process.env.AWS_ENDPOINT_URL || !process.env.AWS_LAMBDA_FUNCTION_NAME;
+
+  if (isLocal) {
+    config.endpoint =
+      process.env.AWS_ENDPOINT_URL || "http://127.0.0.1:4566";
     config.forcePathStyle = true;
     config.credentials = {
       accessKeyId: process.env.AWS_ACCESS_KEY_ID || "test",
