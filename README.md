@@ -232,16 +232,6 @@ Workflow `.github/workflows/ci.yml`:
 
 ---
 
-## Demo en entrevista (guion corto)
-
-1. Mostrar **UI** — procesar un texto, ver tabla.  
-2. **F12 → Network** — `POST /procesar`, JSON de respuesta.  
-3. **Terminal** — `aws s3 ls s3://demo-resultados/resultados/`.  
-4. **GitHub** — repo + `demo_82026_arquitectura.svg` + `infrastructure-stack.ts`.  
-5. Frase: *"Pipeline serverless: React, API Gateway, Lambda, S3; consulta analítica con Athena; infra con CDK; probado en LocalStack."*
-
----
-
 ## Autor
 
 Proyecto de demostración — proceso de selección **82026**.
