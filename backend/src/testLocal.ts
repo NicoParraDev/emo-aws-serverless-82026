@@ -1,3 +1,8 @@
+/**
+ * Prueba el handler Lambda sin HTTP (util para depurar logica y S3 local).
+ *
+ * Uso: npm run test:handler
+ */
 import { handler } from "./handler";
 
 const event = {
@@ -5,5 +10,6 @@ const event = {
 };
 
 handler(event).then((res) => {
-  console.log("Respuesta:", JSON.stringify(res, null, 2));
+  console.log("Status:", res.statusCode);
+  console.log("Body:", res.body);
 });

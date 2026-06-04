@@ -2,7 +2,7 @@
 """
 Lee y resume los JSON guardados por la Lambda en S3.
 Uso local (LocalStack):
-  set AWS_ENDPOINT_URL=http://localhost:4566
+  set AWS_ENDPOINT_URL=http://127.0.0.1:4566
   set AWS_ACCESS_KEY_ID=test
   set AWS_SECRET_ACCESS_KEY=test
   python read_s3_results.py --bucket demo-resultados

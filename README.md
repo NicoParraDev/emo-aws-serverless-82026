@@ -87,10 +87,11 @@ demo-82026/
 ├── demo_82026_arquitectura.svg       # Diagrama con iconos (raiz del repo)
 ├── frontend/                         # React + TypeScript
 ├── backend/
+│   ├── README.md                     # Contrato API y comandos npm
 │   ├── src/handler.ts                # Lambda (lógica de negocio + S3)
 │   ├── src/server.ts                 # API Gateway local (Express)
 │   ├── src/setupAthena.ts            # Crear tabla Athena
-│   ├── src/queryAthena.ts            # Consulta S3 (fallback local)
+│   ├── src/queryS3Resultados.ts      # Consulta S3 (fallback local)
 │   └── src/testLocal.ts              # Probar Lambda sin HTTP
 ├── infrastructure/                   # AWS CDK: S3, Lambda, API GW, CloudFront
 ├── python/
@@ -214,7 +215,7 @@ Recursos definidos en CDK:
 | Lambda | Mismo `handler.ts` vía Express | Función Lambda desplegada |
 | S3 | `http://127.0.0.1:4566` | S3 regional |
 | Frontend | `npm start` (CRA) | CloudFront + S3 |
-| Athena | Limitaciones en tier free; fallback Python / `queryAthena.ts` | Athena gestionado |
+| Athena | Limitaciones en tier free; fallback Python / `queryS3Resultados.ts` | Athena gestionado |
 
 ---
 

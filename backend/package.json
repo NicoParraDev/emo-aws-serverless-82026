@@ -4,12 +4,15 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node src/server.ts",
+    "test:handler": "ts-node src/testLocal.ts",
+    "query:s3": "ts-node src/queryS3Resultados.ts",
+    "setup:athena": "ts-node src/setupAthena.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Lambda handler y API local para demo serverless 82026",
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
